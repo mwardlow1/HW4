@@ -1,5 +1,5 @@
 /*
- * *** YOUR NAME GOES HERE / YOUR SECTION NUMBER ***
+ * *** Michael Wardlow / 001 ***
  *
  * This HashingProblems object contains three methods / problems that you must
  * complete utilize the HashMap object within the Java's Collection Framework Library.
@@ -41,7 +41,19 @@ class HashingProblems {
          * returning 0.0/0.0 IS correct (which would return a non-number).
          */
 
-         return 0.0 / 0.0;
+         int sum = 0;
+         int count = 0;
+
+
+         for (int key : array) {            // iterating through the array
+            if (map.containsKey(key)) {     // Checks if the keys exist in the HasMap
+                sum += map.get(key);        // Add value to sum
+                count++;            // Increment the count
+            }
+         }
+
+         // if there were no values in common, return: 0.0 / 0.0
+         return count == 0 ? Double.NaN : (double) sum / count;
   }
 
 
@@ -62,6 +74,11 @@ class HashingProblems {
        * Hint: Consider iterating over the HashMap using the keySet method.
        */
 
+       for (Integer key : map.keySet()) {       // iterate over the keys of the HasMap
+        if (key % 2 != 0) {                 // If the key is odd
+            result.add(map.get(key));       // Add the value to the array list
+        }
+       }
 
       return result;
   }
@@ -110,7 +127,20 @@ class HashingProblems {
        * ADD YOUR CODE HERE
        */
 
-      return -1;
+       HashSet<Integer> set = new HashSet<>();      // Creating a HasSet to store elements from the array.
+       int count = 0;
+
+       for (int num : numbers) {        // Populate the HasSet with the elements in the array
+        set.add(num);   // insert operation for each number
+       }
+
+       for (int num : numbers) {        // iterate through the array to check for valid pairs
+        if (set.contains(num + k)) {        // if the set contains (num + k), we got a valid pair 
+            count++;                // increment the count
+        }
+       }
+
+      return count;         // return count of valid pairs
   }
 
 } /* end class HashingProblems */

@@ -1,5 +1,5 @@
 /*
- * *** YOUR NAME GOES HERE / YOUR SECTION NUMBER ***
+ * *** Michael Wardlow / 001 ***
  *
  * This hashMap object represents an over simplification of Java's implementation of HashMap within
  * Java's Collection Framework Library. You are to complete the following methods:
@@ -76,6 +76,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.LinkedList;
 
 
 /**
@@ -231,7 +232,26 @@ class myHashMap<K,V> {
          * return value is returned the invoking function based on the remove outcome.
          */
 
-        return null;
+
+    int index = getBucketIndex(key);
+    
+    HashNode<K, V> head = bucket.get(index);
+    HashNode<K, V> prev = null;
+
+    while (head != null) {
+        if (head.key.equals(key)) {
+            if (prev == null) {
+                bucket.set(index, head.next); // Remove head node
+            } else {
+                prev.next = head.next; // Bypass the removed node
+            }
+            size--;
+            return head.value;
+        }
+        prev = head;
+        head = head.next;
+    }
+    return null;
     }
 
 
@@ -406,7 +426,23 @@ class myHashMap<K,V> {
          * replace (see method's prologue above).
          */
 
-        return val;
+        int index = getBucketIndex(key);
+        HashNode<K, V> head = bucket.get(index);
+
+        if (head == null) {
+            return null;
+        }
+
+        while (head != null) {
+            if (head.key.equals(key)) {
+                V oldValue = head.value;
+                head.value = val;
+                return oldValue;
+            }
+            head = head.next;
+        }
+
+        return null;
     }
 
     
@@ -434,8 +470,23 @@ class myHashMap<K,V> {
          * value 'oldval', and is so, it SHOULD call replace(K, V) for code reuse.
          */
 
+        int index = getBucketIndex(key);
+        HashNode<K, V> head = bucket.get(index);
+
+        if (head == null) {
+            return false;
+        }
+
+        while (head != null) {
+            if (head.key.equals(key) && head.value.equals(oldVal)) {
+                head.value = newVal;
+                return true;
+            }
+            head = head.next;
+        }
         return false;
-    }
+    } 
+
 
 
     /**
